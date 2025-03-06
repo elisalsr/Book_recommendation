@@ -21,6 +21,8 @@ User data is available, with anonymized user IDs (User-ID) mapped to integers. W
 - Ratings: User’s ID, ISBN, Book rating
 - Users: ID, Location, Age
 
+<br />
+
 <h2>Modifications and Output</h2>
 
 ### Year of Publication  
@@ -28,6 +30,8 @@ To remove outliers in the "Year of Publication" column, we applied a filter to r
 
 ### Ratings – Book Rating  
 Book ratings in the dataset range from 1 to 10, with a rating of 0 indicating that the reader did not provide feedback. To ensure meaningful recommendations, we filtered out ratings of 0, keeping only explicit ratings (1–10).  
+
+<br />
 
 <h2>Hybrid Model</h2>
 
