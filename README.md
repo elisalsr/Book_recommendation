@@ -1,4 +1,4 @@
-<h1>Weather Recognition</h1>
+<h1>Book recommendation</h1>
 
 <h2>Description</h2>
 Books in this dataset are identified by their respective ISBNs, with invalid entries already removed. Each book includes key metadata sourced from Amazon Web Services, such as the title, author, year of publication, and publisher. If a book has multiple authors, only the first one is listed.  
