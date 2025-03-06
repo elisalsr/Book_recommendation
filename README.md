@@ -1,7 +1,14 @@
 <h1>Weather Recognition</h1>
 
 <h2>Description</h2>
-Books are identified by their respective ISBN. Invalid ISBNs have already been removed from the dataset. Moreover, some content-based information is given (Book-Title, Book-Author, Year-Of-Publication, Publisher), obtained from Amazon Web Services. Note that in case of several authors, only the first is provided. URLs linking to cover images are also given, appearing in three different flavours (Image-URL-S, Image-URL-M, Image-URL-L), i.e., small, medium, large. These URLs point to the Amazon web site. Contains the book rating information. Ratings (Book-Rating) are either explicit, expressed on a scale from 1-10 (higher values denoting higher appreciation), or implicit, expressed by 0. Contains the users. Note that user IDs (User-ID) have been anonymized and map to integers. Demographic data is provided (Location, Age) if available. Otherwise, these fields contain NULL-values. 
+Books in this dataset are identified by their respective ISBNs, with invalid entries already removed. Each book includes key metadata sourced from Amazon Web Services, such as the title, author, year of publication, and publisher. If a book has multiple authors, only the first one is listed.  
+
+Additionally, the dataset provides URLs linking to book cover images in three different sizes: small (Image-URL-S), medium (Image-URL-M), and large (Image-URL-L). These images are hosted on Amazon’s website.  
+
+Book rating information is also included. Ratings (Book-Rating) can be either explicit—on a scale from 1 to 10, where higher values indicate greater appreciation—or implicit, represented by a score of 0.  
+
+User data is available, with anonymized user IDs (User-ID) mapped to integers. When provided, demographic information such as location and age is included; otherwise, these fields contain NULL values.  
+
 
 <br />
 
@@ -14,29 +21,28 @@ Books are identified by their respective ISBN. Invalid ISBNs have already been r
 - Ratings: User’s ID, ISBN, Book rating
 - Users: ID, Location, Age
 
-<h2>Modifications and output</h2>
+<h2>Modifications and Output</h2>
 
-- Year of publication
+### Year of Publication  
+To remove outliers in the "Year of Publication" column, we applied a filter to retain only years between 1900 and 2024. This process eliminated extreme values such as year 0 or incorrect entries like 2024.
 
-To delete the outliers in the “Years of publication” column, we decided to filter the column to select only the years between 1900 and 2024. The outliers as the year 0 or the year 2024 were in this way deleted.
+### Ratings – Book Rating  
+Book ratings in the dataset range from 1 to 10, with a rating of 0 indicating that the reader did not provide feedback. To ensure meaningful recommendations, we filtered out ratings of 0, keeping only explicit ratings (1–10).  
 
-- Ratings - Book rating
+<h2>Hybrid Model</h2>
 
-In the details of the dataset, we saw that book ratings could be between 1 and 10, a 0 rating means the reader didn’t give his appreciation. Thus, we filtered the ratings to have a minimum of 1
+### Filtering Recommended Books with IMDb  
+To recommend books that readers genuinely appreciate, we incorporate IMDb scores as an additional filtering criterion. The process involves:  
 
-<h2>Hybrid model</h2>
+- **Addressing representation bias**: Books must have at least **five reviews** to be considered.  
+- **Ensuring quality recommendations**: Only books with an **IMDb score higher than 5** are retained, ensuring that our model suggests well-rated books.  
 
-- Filter recommended books with IMDB
+### Recommendation Using Cosine Similarity  
+To compute similarity between books, we leverage the **cosine similarity** technique based on key book attributes:  
 
-We only want to recommend books that readers like. Therfore, we use IMDB to score books appreciation and we filter books with the highest score. Here are some takes : 
-Dealing with representation bias: books must have at least 5 reviews to appear on the list
-We only keep books that have an IMDB score higher than 5, so that our model only recommends books that have good ratings.
+- **Book Title**  
+- **Book Author**  
+- **Publisher**  
+- **Period of Publication**  
 
-- Recommendation with Cosine Similarity
-  
-Key features : 
-Book-Title,
-Book-Author
-Publisher
-Period_Of_Publication
-We combine these key features in one single feature. We clean it, build a count matrix, and use cosine similarity on it.
+These attributes are combined into a single feature, cleaned, and converted into a count matrix. We then apply cosine similarity to identify books that share similar characteristics.  
